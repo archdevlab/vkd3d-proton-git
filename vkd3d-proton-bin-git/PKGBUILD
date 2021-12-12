@@ -43,7 +43,7 @@ package(){
   install -D "$srcdir"/vkd3d-proton/build/vkd3d-proton-master/x86/* -t "$pkgdir/usr/share/dxvk/x86"
   install -D "$srcdir"/vkd3d-proton/build/vkd3d-proton-master/x64/* -t "$pkgdir/usr/share/dxvk/x64"
   install "$srcdir"/vkd3d-proton/build/vkd3d-proton-master/setup_vkd3d_proton.sh -t "$pkgdir/usr/share/dxvk/"
-  install "$srcdir"/vkd3d-proton/build/vkd3d-proton-master/setup_vkd3d_proton.sh -t "$pkgdir/usr/bin/setup_vkd3d_proton"
+  install -D "$srcdir"/vkd3d-proton/build/vkd3d-proton-master/setup_vkd3d_proton.sh -t "$pkgdir/usr/bin/"
 
   # installing license
   install -Dt "$pkgdir"/usr/share/licenses/"$pkgname" -m644 "$srcdir"/vkd3d-proton/LICENSE
