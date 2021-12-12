@@ -1,0 +1,53 @@
+#_                   _ _ _  _ _____ _  _
+#| | _______   ____ _| | | || |___  | || |
+#| |/ / _ \ \ / / _` | | | || |_ / /| || |_
+#|   <  __/\ V / (_| | | |__   _/ / |__   _|
+#|_|\_\___| \_/ \__,_|_|_|  |_|/_/     |_|
+
+#Maintainer: kevall474 <kevall474@tuta.io> <https://github.com/kevall474>
+#Credits: Cyano Hao <c@cyano.cn>
+
+pkgname=vkd3d-proton-bin-git
+pkgver=2.5.r88.gc0a3fa8a
+pkgrel=1
+pkgdesc='Direct3D 12 to Vulkan translation library (Windows DLL binary files)'
+url="https://github.com/HansKristian-Work/vkd3d-proton"
+license=('LGPL')
+arch=('x86_64')
+depends=('spirv-tools' 'vulkan-icd-loader')
+makedepends=('git' 'meson' 'glslang' 'wine' 'xcb-util-keysyms' 'xorgproto' 'mingw-w64-gcc')
+provides=('vkd3d-proton-bin' 'vkd3d-proton-bin-git')
+source=('git+https://github.com/HansKristian-Work/vkd3d-proton')
+md5sums=('SKIP')
+
+pkgver(){
+  cd "$srcdir"/vkd3d-proton/
+
+  # cutting off 'foo-' prefix that presents in the git tag
+  #git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+
+  #git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  #git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "$srcdir"/vkd3d-proton
+  git submodule update --init --recursive
+  rm -rf build
+  mkdir build
+  ./package-release.sh master build --no-package
+}
+
+package(){
+  install -D "$srcdir"/vkd3d-proton/build/vkd3d-proton-master/x86/* -t "$pkgdir/usr/share/dxvk/x86"
+  install -D "$srcdir"/vkd3d-proton/build/vkd3d-proton-master/x64/* -t "$pkgdir/usr/share/dxvk/x64"
+  install "$srcdir"/vkd3d-proton/build/vkd3d-proton-master/setup_vkd3d_proton.sh -t "$pkgdir/usr/share/dxvk/"
+  install -d "$pkgdir/usr/bin"
+  ln -s "$pkgdir"/usr/share/dxvk/setup_vkd3d_proton.sh "$pkgdir/usr/bin/setup_vkd3d_proton"
+
+  # installing license
+  install -Dt "$pkgdir"/usr/share/licenses/"$pkgname" -m644 "$srcdir"/vkd3d-proton/LICENSE
+  install -Dt "$pkgdir"/usr/share/licenses/"$pkgname" -m644 "$srcdir"/vkd3d-proton/COPYING
+  install -Dt "$pkgdir"/usr/share/licenses/"$pkgname" -m644 "$srcdir"/vkd3d-proton/AUTHORS
+}
