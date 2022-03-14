@@ -8,17 +8,6 @@
 #Maintainer: blacksky3 <blacksky3@tuta.io> <https://github.com/blacksky3>
 #Credits: Gustavo Alvarez <sl1pkn07@gmail.com>
 
-#######################################
-
-#Set '1' to build with GCC
-#Set '2' to build with CLANG
-#Default is empty. It will build with GCC. To build with different compiler just use : env _compiler=(1 or 2) makepkg -s
-if [ -z ${_compiler+x} ]; then
-  _compiler=
-fi
-
-#######################################
-
 pkgname=vkd3d-proton-git
 pkgver=2.5.r88.gc0a3fa8a
 pkgrel=1
@@ -27,13 +16,8 @@ arch=(x86_64)
 url='https://source.winehq.org/git/vkd3d.git'
 license=(LGPL)
 depends=(spirv-tools vulkan-icd-loader libxcb)
-makedepends=(git meson ninja glslang spirv-headers vulkan-headers xcb-proto wine xorgproto xcb-util-keysyms)
-if [[ "$_compiler" = "1" ]]; then
-  makedepends+=(gcc gcc-libs)
-fi
-if [[ "$_compiler" = "2" ]]; then
-  makedepends+=(clang llvm llvm-libs)
-fi
+makedepends=(git meson ninja glslang spirv-headers vulkan-headers xcb-proto wine xorgproto 
+             xcb-util-keysyms gcc gcc-libs)
 conflicts=(vkd3d-proton)
 provides=(vkd3d-proton vkd3d-proton-git)
 source=(git+https://github.com/HansKristian-Work/vkd3d-proton.git)
@@ -57,17 +41,6 @@ prepare(){
 }
 
 build(){
-if [[ $_compiler = "1" ]]; then
-  export CC='gcc'
-  export CXX='g++'
-elif [[ $_compiler = "2" ]]; then
-  export CC='clang'
-  export CXX='clang++'
-else
-  export CC='gcc'
-  export CXX='g++'
-fi
-
   cd ${srcdir}/vkd3d-proton
 
   rm -rf build64
