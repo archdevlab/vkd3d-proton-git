@@ -32,7 +32,7 @@ if [[ "$_compiler" = "1" ]]; then
   makedepends+=(gcc gcc-libs lib32-gcc-libs)
 fi
 if [[ "$_compiler" = "2" ]]; then
-  makedepends+=(clang llvm llvm-libs lib32-llvm-libs)
+  makedepends+=(clang llvm llvm-libs lib32-clang lib32-llvm-libs)
 fi
 conflicts=(lib32-vkd3d-proton)
 provides=(lib32-vkd3d-proton-git lib32-vkd3d-proton)
