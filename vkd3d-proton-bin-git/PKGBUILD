@@ -21,6 +21,7 @@ provides=(vkd3d-proton-bin vkd3d-proton-bin-git)
 source=(git+https://github.com/HansKristian-Work/vkd3d-proton)
 md5sums=(SKIP)
 install=${pkgname}.install
+options=(!buildflags)
 
 pkgver(){
   cd ${srcdir}/vkd3d-proton
