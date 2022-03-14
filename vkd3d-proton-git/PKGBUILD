@@ -1,10 +1,11 @@
-#_                   _ _ _  _ _____ _  _
-#| | _______   ____ _| | | || |___  | || |
-#| |/ / _ \ \ / / _` | | | || |_ / /| || |_
-#|   <  __/\ V / (_| | | |__   _/ / |__   _|
-#|_|\_\___| \_/ \__,_|_|_|  |_|/_/     |_|
+# _     _            _        _          _____
+#| |__ | | __ _  ___| | _____| | ___   _|___ /
+#| '_ \| |/ _` |/ __| |/ / __| |/ / | | | |_ \
+#| |_) | | (_| | (__|   <\__ \   <| |_| |___) |
+#|_.__/|_|\__,_|\___|_|\_\___/_|\_\\__, |____/
+#                                  |___/
 
-#Maintainer: kevall474 <kevall474@tuta.io> <https://github.com/kevall474>
+#Maintainer: blacksky3 <blacksky3@tuta.io> <https://github.com/blacksky3>
 #Credits: Gustavo Alvarez <sl1pkn07@gmail.com>
 
 #######################################
@@ -22,10 +23,10 @@ pkgname=vkd3d-proton-git
 pkgver=2.5.r88.gc0a3fa8a
 pkgrel=1
 pkgdesc='D3D12 to Vulkan translation library (git version)'
-arch=('x86_64')
+arch=(x86_64)
 url='https://source.winehq.org/git/vkd3d.git'
-license=('LGPL')
-depends=('spirv-tools' 'vulkan-icd-loader' 'libxcb')
+license=(LGPL)
+depends=(spirv-tools vulkan-icd-loader libxcb)
 makedepends=(git meson ninja glslang spirv-headers vulkan-headers xcb-proto wine xorgproto xcb-util-keysyms)
 if [[ "$_compiler" = "1" ]]; then
   makedepends+=(gcc gcc-libs)
@@ -33,14 +34,13 @@ fi
 if [[ "$_compiler" = "2" ]]; then
   makedepends+=(clang llvm llvm-libs)
 fi
-conflicts=('vkd3d-proton')
-provides=('vkd3d-proton-git' 'vkd3d-proton')
-source=('git+https://github.com/HansKristian-Work/vkd3d-proton.git')
-md5sums=('SKIP')
+conflicts=(vkd3d-proton)
+provides=(vkd3d-proton vkd3d-proton-git)
+source=(git+https://github.com/HansKristian-Work/vkd3d-proton.git)
+md5sums=(SKIP)
 
 pkgver(){
-
-  cd "$srcdir"/vkd3d-proton/
+  cd ${srcdir}/vkd3d-proton
   
   # cutting off 'foo-' prefix that presents in the git tag
   #git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
@@ -48,16 +48,10 @@ pkgver(){
 
   #git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
   #git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
-  
-  
 }
 
 prepare(){
-
-  # This workarround was for testing before adding xorgproto and xcb-util-keysyms to makedpends
-  #cp "$srcdir"/vkd3d_d3d12.h "$srcdir"/vkd3d-proton/include/
-
-  cd "$srcdir"/vkd3d-proton/
+  cd ${srcdir}/vkd3d-proton
 
   git submodule update --init --recursive
 }
@@ -74,7 +68,7 @@ else
   export CXX='g++'
 fi
 
-  cd "$srcdir"/vkd3d-proton/
+  cd ${srcdir}/vkd3d-proton
 
   rm -rf build64
 
@@ -102,7 +96,7 @@ fi
 }
 
 package(){
-  DESTDIR="${pkgdir}" ninja -C "$srcdir"/vkd3d-proton/build64/ install
+  DESTDIR="${pkgdir}" ninja -C cd ${srcdir}/vkd3d-proton/build64/ install
 
   # installing license
   install -Dt "$pkgdir"/usr/share/licenses/"$pkgname" -m644 "$srcdir"/vkd3d-proton/LICENSE
