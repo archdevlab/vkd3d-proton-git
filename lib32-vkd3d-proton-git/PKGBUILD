@@ -1,10 +1,11 @@
-#_                   _ _ _  _ _____ _  _
-#| | _______   ____ _| | | || |___  | || |
-#| |/ / _ \ \ / / _` | | | || |_ / /| || |_
-#|   <  __/\ V / (_| | | |__   _/ / |__   _|
-#|_|\_\___| \_/ \__,_|_|_|  |_|/_/     |_|
+# _     _            _        _          _____
+#| |__ | | __ _  ___| | _____| | ___   _|___ /
+#| '_ \| |/ _` |/ __| |/ / __| |/ / | | | |_ \
+#| |_) | | (_| | (__|   <\__ \   <| |_| |___) |
+#|_.__/|_|\__,_|\___|_|\_\___/_|\_\\__, |____/
+#                                  |___/
 
-#Maintainer: kevall474 <kevall474@tuta.io> <https://github.com/kevall474>
+#Maintainer: blacksky3 <blacksky3@tuta.io> <https://github.com/blacksky3>
 #Credits: Gustavo Alvarez <sl1pkn07@gmail.com>
 
 #######################################
@@ -22,20 +23,24 @@ pkgname=lib32-vkd3d-proton-git
 pkgver=2.5.r88.gc0a3fa8a
 pkgrel=1
 pkgdesc='D3D12 to Vulkan translation library (32-bit) (git version)'
-arch=('x86_64')
+arch=(i686 x86_64)
 url='https://source.winehq.org/git/vkd3d.git'
-license=('LGPL')
-depends=('spirv-tools' 'lib32-vulkan-icd-loader' 'lib32-libxcb')
-makedepends=('git' 'meson' 'ninja' 'glslang' 'spirv-headers' 'vulkan-headers' 'xcb-proto' 'wine' 'gcc' 'gcc-libs'
-             'lib32-gcc-libs' 'llvm' 'lib32-llvm' 'llvm-libs' 'lib32-llvm-libs' 'clang' 'lib32-clang'
-             'xorgproto' 'xcb-util-keysyms' 'lib32-xcb-util-keysyms') # wine can be either wine or wine staging
-conflicts=('lib32-vkd3d-proton')
-provides=('lib32-vkd3d-proton-git' 'lib32-vkd3d-proton')
-source=('git+https://github.com/HansKristian-Work/vkd3d-proton.git')
-md5sums=('SKIP')
+license=(LGPL)
+depends=(spirv-tools lib32-vulkan-icd-loader lib32-libxcb)
+makedepends=(git meson ninja glslang spirv-headers vulkan-headers xcb-proto wine xorgproto xcb-util-keysyms lib32-xcb-util-keysyms)
+if [[ "$_compiler" = "1" ]]; then
+  makedepends+=(gcc gcc-libs lib32-gcc-libs)
+fi
+if [[ "$_compiler" = "2" ]]; then
+  makedepends+=(clang llvm llvm-libs lib32-llvm-libs)
+fi
+conflicts=(lib32-vkd3d-proton)
+provides=(lib32-vkd3d-proton-git lib32-vkd3d-proton)
+source=(git+https://github.com/HansKristian-Work/vkd3d-proton.git)
+md5sums=(SKIP)
 
 pkgver(){
-  cd "$srcdir"/vkd3d-proton/
+  cd ${srcdir}/vkd3d-proton
 
   # cutting off 'foo-' prefix that presents in the git tag
   #git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
@@ -46,11 +51,7 @@ pkgver(){
 }
 
 prepare(){
-
-  # This workarround was for testing before adding xorgproto and xcb-util-keysyms to makedpends
-  #cp "$srcdir"/vkd3d_d3d12.h "$srcdir"/vkd3d-proton/include/
-
-  cd "$srcdir"/vkd3d-proton/
+  cd ${srcdir}/vkd3d-proton
 
   git submodule update --init --recursive
 }
@@ -67,7 +68,7 @@ else
   export CXX='g++ -m32'
 fi
 
-  cd "$srcdir"/vkd3d-proton/
+  cd ${srcdir}/vkd3d-proton
 
   rm -rf build32
 
@@ -96,7 +97,7 @@ fi
 }
 
 package(){
-  DESTDIR="${pkgdir}" ninja -C "$srcdir"/vkd3d-proton/build32/ install
+  DESTDIR="${pkgdir}" ninja -C cd ${srcdir}/vkd3d-proton/build32/ install
 
   rm -rf "${pkgdir}"/usr/include
 
