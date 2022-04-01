@@ -9,10 +9,10 @@
 #Credits: Cyano Hao <c@cyano.cn>
 
 pkgname=vkd3d-proton-bin-git
+pkgdesc='Direct3D 12 to Vulkan translation library (Windows DLL binary files) (git version)'
 pkgver=2.6.r48.gdd6534f3
 pkgrel=1
-pkgdesc='Direct3D 12 to Vulkan translation library (Windows DLL binary files) (git version)'
-url="https://github.com/HansKristian-Work/vkd3d-proton"
+url='https://github.com/HansKristian-Work/vkd3d-proton'
 license=(LGPL)
 arch=(x86_64)
 depends=(spirv-tools vulkan-icd-loader)
@@ -27,11 +27,7 @@ pkgver(){
   cd ${srcdir}/vkd3d-proton
 
   # cutting off 'foo-' prefix that presents in the git tag
-  #git describe --long | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
-
-  #git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
-  #git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare(){
