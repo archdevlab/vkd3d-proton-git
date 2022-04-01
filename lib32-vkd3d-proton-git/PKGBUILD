@@ -73,7 +73,7 @@ export PKG_CONFIG_PATH=/usr/lib32/pkgconfig
 }
 
 package(){
-  DESTDIR="${pkgdir}" ninja -C cd ${srcdir}/vkd3d-proton/build32/ install
+  DESTDIR="${pkgdir}" ninja -C ${srcdir}/vkd3d-proton/build32/ install
 
   rm -rf "${pkgdir}"/usr/include
 
