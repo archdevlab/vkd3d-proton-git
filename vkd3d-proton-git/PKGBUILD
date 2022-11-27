@@ -16,7 +16,7 @@ arch=(x86_64)
 url='https://source.winehq.org/git/vkd3d.git'
 license=(LGPL)
 depends=(spirv-tools vulkan-icd-loader libxcb)
-makedepends=(git meson ninja glslang spirv-headers vulkan-headers xcb-proto wine xorgproto 
+makedepends=(git meson ninja glslang spirv-headers vulkan-headers xcb-proto wine xorgproto
              xcb-util-keysyms gcc gcc-libs)
 conflicts=(vkd3d-proton)
 provides=(vkd3d-proton vkd3d-proton-git)
@@ -25,7 +25,7 @@ md5sums=(SKIP)
 
 pkgver(){
   cd ${srcdir}/vkd3d-proton
-  
+
   # cutting off 'foo-' prefix that presents in the git tag
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
@@ -57,7 +57,7 @@ build(){
   -Denable_descriptor_qa=false \
   -Denable_trace=auto
 
-  meson configure build64/
+  #meson configure build64/
 
   meson compile -C build64/
 
