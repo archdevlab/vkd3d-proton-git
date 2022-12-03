@@ -58,10 +58,10 @@ build(){
   -Denable_trace=auto
 
   #meson configure build64/
+  
+  ninja -C build64/
 
   meson compile -C build64/
-
-  ninja -C build64/
 }
 
 package(){
