@@ -66,10 +66,10 @@ export PKG_CONFIG_PATH=/usr/lib32/pkgconfig
   -Denable_trace=auto
 
   #meson configure build32/
+  
+  ninja -C build32/
 
   meson compile -C build32/
-
-  ninja -C build32/
 }
 
 package(){
