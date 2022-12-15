@@ -59,7 +59,6 @@ export PKG_CONFIG_PATH=/usr/lib32/pkgconfig
   --libdir=/usr/lib32 \
   -Denable_tests=false \
   -Denable_extras=false \
-  -Denable_d3d12=auto \
   -Denable_profiling=false \
   -Denable_renderdoc=false \
   -Denable_descriptor_qa=false \
