@@ -56,3 +56,5 @@ package(){
   install -Dt "$pkgdir"/usr/share/licenses/"$pkgname" -m644 "$srcdir"/vkd3d-proton/COPYING
   install -Dt "$pkgdir"/usr/share/licenses/"$pkgname" -m644 "$srcdir"/vkd3d-proton/AUTHORS
 }
+
+# vim:set ts=8 sts=2 sw=2 et:
