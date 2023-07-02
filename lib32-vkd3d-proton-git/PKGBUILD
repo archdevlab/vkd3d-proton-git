@@ -15,9 +15,8 @@ pkgrel=1
 arch=(i686 x86_64)
 url='https://source.winehq.org/git/vkd3d.git'
 license=(LGPL)
-depends=(spirv-tools lib32-vulkan-icd-loader lib32-libxcb)
-makedepends=(git meson ninja glslang spirv-headers vulkan-headers xcb-proto wine xorgproto xcb-util-keysyms
-             lib32-xcb-util-keysyms gcc gcc-libs lib32-gcc-libs)
+depends=(lib32-vulkan-icd-loader)
+makedepends=(meson glslang wine xcb-util-keysyms lib32-xcb-util-keysyms xorgproto git)
 conflicts=(lib32-vkd3d-proton)
 provides=(lib32-vkd3d-proton-git lib32-vkd3d-proton)
 source=(git+https://github.com/HansKristian-Work/vkd3d-proton.git)
